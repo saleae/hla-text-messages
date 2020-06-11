@@ -1,0 +1,13 @@
+{
+  "name": "Text Messages",
+  "apiVersion": "1.0.0",
+  "author": "Mark Garrison",
+  "version": "0.0.1",
+  "description": "Merge multiple frames into a single frames based on delimiters and packet timeout",
+  "extensions": {
+    "Text Messages": {
+      "type": "HighLevelAnalyzer",
+      "entryPoint": "text_messages.Hla"
+    }
+  }
+}
