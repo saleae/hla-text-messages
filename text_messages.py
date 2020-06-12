@@ -87,9 +87,9 @@ class TextMessages(HighLevelAnalyzer):
             first_frame = True
             self.clear_stored_message(frame)
 
-        # handle serial data
-        if frame.type == "data" and "value" in frame.data.keys():
-            value = frame.data["value"][0]
+        # handle serial data and I2C data
+        if frame.type == "data" and "data" in frame.data.keys():
+            value = frame.data["data"][0]
             char = chr(value)
 
         # handle I2C address
@@ -104,11 +104,6 @@ class TextMessages(HighLevelAnalyzer):
             # append the address to the beginning of the new message
             self.append_char("address: " + hex(value) + ";")
             return None
-
-        # handle I2C data byte
-        if frame.type == "data" and "data" in frame.data.keys() and type(frame.data) is bytes:
-            value = frame.data[0]
-            char = chr(value)
 
         # handle I2C start condition
         if frame.type == "start":
