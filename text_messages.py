@@ -137,7 +137,6 @@ class TextMessages(HighLevelAnalyzer):
                 ret = self.temp_frame
                 self.clear_stored_message(frame)
                 self.append_char(char)
-                print(ret.start_time)
                 return ret
 
         self.append_char(char)
