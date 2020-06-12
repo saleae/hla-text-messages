@@ -27,7 +27,7 @@ class TextMessages(HighLevelAnalyzer):
 
     # Settings:
     prefix = StringSetting(label='Message Prefix (optional)')
-    packet_timeout = NumberSetting(label='Packet Timeout [s]', min=1E-6, max=1E4)
+    packet_timeout = NumberSetting(label='Packet Timeout [s]', min_value=1E-6, max_value=1E4)
     delimiter_setting = ChoicesSetting(label='Packet Delimiter', choices=DELIMITER_CHOICES.keys())
 
     # Base output formatting options:
@@ -137,6 +137,7 @@ class TextMessages(HighLevelAnalyzer):
                 ret = self.temp_frame
                 self.clear_stored_message(frame)
                 self.append_char(char)
+                print(ret.start_time)
                 return ret
 
         self.append_char(char)

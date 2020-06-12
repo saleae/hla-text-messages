@@ -2,7 +2,7 @@
   "name": "Text Messages",
   "apiVersion": "1.0.0",
   "author": "Mark Garrison",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Merge multiple frames into a single frames based on delimiters and packet timeout",
   "extensions": {
     "Text Messages": {
