@@ -16,7 +16,8 @@ DELIMITER_CHOICES = {
     'Null [\\0]': '\0',
     'Space [\' \']': ' ',
     'Semicolon [;]': ';',
-    'Tab [\\t]': '\t'
+    'Tab [\\t]': '\t',
+    'None []': str()
 }
 
 
@@ -88,7 +89,7 @@ class TextMessages(HighLevelAnalyzer):
             self.clear_stored_message(frame)
 
         # handle serial data and I2C data
-        if frame.type == "data" and "data" in frame.data.keys():
+        if frame.type == "data" and "data" in frame.data.keys() and not "error" in frame.data:
             value = frame.data["data"][0]
             char = chr(value)
 
