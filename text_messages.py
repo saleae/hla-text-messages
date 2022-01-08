@@ -20,15 +20,16 @@ DELIMITER_CHOICES = {
     'Tab [\\t]': '\t'
 }
 OUTPUT_FORMAT = {
-    'Ascii': 'str',
-    'Byte array': 'hex'
+    'Ascii': '{0:c}',
+    'Byte array': '{0:02X}',
+    'Binary array': '{0:08b}'
 }
 
 class TextMessages(HighLevelAnalyzer):
 
     temp_frame = None
     delimiter = '\n'
-    output_format = 'str'
+    output_format = '{0:c}'
 
     # Settings:
     prefix = StringSetting(label='Message Prefix (optional)')
@@ -57,8 +58,8 @@ class TextMessages(HighLevelAnalyzer):
 
     def append_char(self, char):
         char : str()
-        if self.output_format is 'hex' and not "address:" in char: 
-            char=f"{ord(char):02X}" #does not support wide characters
+        if not "address:" in char:
+            char=self.output_format.format(ord(char))
         self.temp_frame.data["str"] += char
 
     def have_existing_message(self):
