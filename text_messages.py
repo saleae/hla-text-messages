@@ -122,9 +122,9 @@ class TextMessages(HighLevelAnalyzer):
         if frame.type == "result":
             char = ""
             if "miso" in frame.data.keys() and frame.data["miso"] != 0:
-                char += chr(frame.data["miso"])
+                char += chr(ord(frame.data["miso"]))
             if "mosi" in frame.data.keys() and frame.data["mosi"] != 0:
-                char += chr(frame.data["mosi"])
+                char += chr(ord(frame.data["mosi"]))
 
         # If we have a timeout event, commit the frame and make sure not to add the new frame after the delay, and add the current character to the next frame.
         if first_frame == False and self.temp_frame is not None:
