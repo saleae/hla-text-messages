@@ -122,9 +122,21 @@ class TextMessages(HighLevelAnalyzer):
         if frame.type == "result":
             char = ""
             if "miso" in frame.data.keys() and frame.data["miso"] != 0:
-                char += chr(frame.data["miso"])
+                char += chr(frame.data["miso"][0])
             if "mosi" in frame.data.keys() and frame.data["mosi"] != 0:
-                char += chr(frame.data["mosi"])
+                char += chr(frame.data["mosi"][0])
+
+        # SPI enable event
+        if frame.type == "enable":
+            return
+
+        if frame.type == "disable":
+            if self.have_existing_message() == True:
+                ret = self.temp_frame
+                self.temp_frame = None
+                return ret
+            self.temp_frame = None
+            return
 
         # If we have a timeout event, commit the frame and make sure not to add the new frame after the delay, and add the current character to the next frame.
         if first_frame == False and self.temp_frame is not None:
