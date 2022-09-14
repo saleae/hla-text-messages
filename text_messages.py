@@ -10,6 +10,7 @@ from saleae.data import GraphTimeDelta
 MESSAGE_PREFIX_SETTING = 'Message Prefix (optional)'
 PACKET_TIMEOUT_SETTING = 'Packet Timeout [s]'
 PACKET_DELIMITER_SETTING = 'Packet Delimiter'
+PACKET_FORMAT_SETTING = 'Packet format'
 
 DELIMITER_CHOICES = {
     'New Line [\\n]': '\n',
@@ -18,17 +19,23 @@ DELIMITER_CHOICES = {
     'Semicolon [;]': ';',
     'Tab [\\t]': '\t'
 }
-
+OUTPUT_FORMAT = {
+    'Ascii': '{0:c}',
+    'Byte array': '{0:02X}',
+    'Binary array': '{0:08b}'
+}
 
 class TextMessages(HighLevelAnalyzer):
 
     temp_frame = None
     delimiter = '\n'
+    output_format = '{0:c}'
 
     # Settings:
     prefix = StringSetting(label='Message Prefix (optional)')
     packet_timeout = NumberSetting(label='Packet Timeout [s]', min_value=1E-6, max_value=1E4)
     delimiter_setting = ChoicesSetting(label='Packet Delimiter', choices=DELIMITER_CHOICES.keys())
+    output_format = ChoicesSetting(label='Output format', choices=OUTPUT_FORMAT.keys())
 
     # Base output formatting options:
     result_types = {
@@ -39,6 +46,7 @@ class TextMessages(HighLevelAnalyzer):
 
     def __init__(self):
         self.delimiter = DELIMITER_CHOICES.get(self.delimiter_setting, '\n')
+        self.output_format = OUTPUT_FORMAT.get(self.output_format, '\n')
         self.result_types["message"] = {
             'format': self.prefix + '{{{data.str}}}'
         }
@@ -49,6 +57,9 @@ class TextMessages(HighLevelAnalyzer):
         })
 
     def append_char(self, char):
+        char : str()
+        if not "address:" in char:
+            char=self.output_format.format(ord(char))
         self.temp_frame.data["str"] += char
 
     def have_existing_message(self):
